@@ -4,7 +4,7 @@ import { FiSearch } from "react-icons/fi";
 function Hero() {
     return (
         <div className='flex min-h-screen'>
-            <div className='flex flex-col-reverse md:flex-row mt-20 m-6 p-4 shadow-xl/10 rounded-lg  '>
+            <div className='flex flex-col-reverse md:flex-row mt-20 m-6 p-4   '>
                 {/* left side  */}
                 <div className='flex flex-col gap-6 m-2 basis-1/2 p-8 tracking-tight mr-4'>
                     <h1 className='uppercase text-3xl mt-3 font-bold text-wrap md:text-8xl flex flex-col gap-6'>find your

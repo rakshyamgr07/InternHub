@@ -4,7 +4,7 @@ import { SiJavascript } from 'react-icons/si'
 
 function InternshipCard() {
   return (
-    <div className=' min-h-full shadow-xl/30 m-6 p-4 rounded-lg flex flex-col items-center'>
+    <div className=' min-h-full  m-6 p-4 flex flex-col items-center'>
       <div className="flex justify-center items-center text-center gap-3 rounded-full bg-blue-50 px-4 py-2 text-sm w-fit  font-bold text-blue-600">
         <span className="h-2 w-2 rounded-full bg-blue-600"></span>
 

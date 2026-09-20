@@ -3,7 +3,7 @@ import React from 'react'
 function InternHubSection() {
     return (
         <div className=' min-h-full'>
-            <div className='flex flex-col min-h-full  shadow-xl/20 rounded-lg m-6 p-4 gap-4 items-center'>
+            <div className='flex flex-col min-h-full   m-6 p-4 gap-4 items-center'>
 
                 {/* top section  */}
                 <div className="flex justify-center items-center text-center gap-3 rounded-full bg-blue-50 px-4 py-2 text-sm w-fit  font-bold text-blue-600">
