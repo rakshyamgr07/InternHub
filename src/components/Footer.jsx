@@ -6,76 +6,97 @@ import { LuBuilding2 } from 'react-icons/lu'
 
 function Footer() {
   return (
-    <div>
+    <div className='bg-[#001B3D] text-white flex-col '>
 
-      {/* first */}
-      <div>
+      <div className=' m-4 p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8'>
 
-        <div>
-          <img src="/logo1.png" alt="" className='w-12 h-12 rounded-full object-cover' />
-          <h1>InternHub</h1>
+        {/* first */}
+        <div className='flex flex-col justify-evenly gap-5 '>
+
+          <div className='flex flex-row gap-3 '>
+            <img src="/logo1.png" alt="" className='w-12 h-12 rounded-full object-cover' />
+            <h1 className='text-2xl sm:text-3 lg:text-4xl mt-1 font-bold'>InternHub</h1>
+          </div>
+
+          <p className='text-wrap text-xl'>Find Internships, build your skills, and
+            start your career with confidence.</p>
+
+          <div className='flex flex-row gap-5 text-xl'>
+            <a href=""><FaGithub /></a>
+            <a href=""><FaLinkedin /></a>
+            <a href=""><FiMail /></a>
+          </div>
         </div>
 
-        <p>Find Internships, build your skills, and start your career with confidence.</p>
+        {/* second div  */}
+        <div className='flex flex-col gap-5 '>
 
-        <div>
-          <a href=""><FaGithub /></a>
-          <a href=""><FaLinkedin /></a>
-          <a href=""><FiMail /></a>
+          <div className='flex flex-col gap-2'>
+            <h1 className='text-xl font-semibold'>For Students</h1>
+            <div className="w-8 h-1 bg-blue-600 rounded-full transition duration-300 hover:scale-200"></div>
+
+          </div>
+          <ul className='flex flex-col gap-4'>
+            <li className='flex flex-row gap-2 items-center'><FaSearch />Browse Internships</li>
+            <li className='flex flex-row gap-2 items-center'><FiFileText />My Applicants</li>
+            <li className='flex flex-row gap-2 items-center'><FiBookmark />Saved Internships</li>
+            <li className='flex flex-row gap-2 items-center'><FiUser />Student Profile</li>
+          </ul>
+        </div>
+
+        {/* third div  */}
+        <div className='flex flex-col gap-5 '>
+          <div className='flex flex-col gap-2'>
+            <h1 className='text-xl font-semibold'>For Companies</h1>
+            <div className="w-8 h-1 bg-blue-600 rounded-full transition duration-300 hover:scale-200"></div>
+          </div>
+
+          <ul className='flex flex-col gap-4'>
+            <li className='flex flex-row gap-2 items-center'><FiPlusSquare />Post Internships</li>
+            <li className='flex flex-row gap-2 items-center'><FiUsers />Find Talent</li>
+            <li className='flex flex-row gap-2 items-center'><FiClipboard />Manage Applicants</li>
+            <li className='flex flex-row gap-2 items-center'><LuBuilding2 />Company Profile</li>
+          </ul>
+        </div>
+
+        {/* fourth div  */}
+        <div className='flex flex-col gap-5 '>
+          <div className='flex flex-col gap-2'>
+            <h1 className='text-xl font-semibold'>Company</h1>
+            <div className="w-8 h-1 bg-blue-600 rounded-full  transition duration-300 hover:scale-200"></div>
+
+          </div>
+          <ul className='flex flex-col gap-4'>
+            <li className='flex flex-row gap-2 items-center'><FiInfo />About Us</li>
+            <li className='flex flex-row gap-2 items-center'><FiPhone />Contact Us</li>
+            <li className='flex flex-row gap-2 items-center'><FiBriefcase />Careers </li>
+            <li className='flex flex-row gap-2 items-center'><FiHelpCircle />FAQ </li>
+          </ul>
+        </div>
+
+        {/* fifth div    */}
+        <div className='flex flex-col gap-5 '>
+          <div className='flex flex-col gap-2'>
+            <h1 className='text-xl font-semibold'>Connect</h1>
+            <div className="w-8 h-1 bg-blue-600 rounded-full transition duration-300 hover:scale-200"></div>
+
+          </div>
+          <ul className='flex flex-col gap-4'>
+            <li className='flex flex-row gap-2 items-center'><FaGithub />GitHub</li>
+            <li className='flex flex-row gap-2 items-center'><FaLinkedin />LinkedIn</li>
+            <li className='flex flex-row gap-2 items-center'><FiMail />Email Us</li>
+            <li className='flex flex-row gap-2 items-center'><FaInstagram />Instagram</li>
+            <li className='flex flex-row gap-2 items-center'><FaTwitter />Twitter</li>
+
+          </ul>
         </div>
       </div>
+      {/* bottom  */}
+      <div className='flex flex-row justify-center items-center gap-40'>
 
-      {/* second div  */}
-      <div>
-        <h1>For Students</h1>
-        <ul>
-          <li><FaSearch />Browse Internships</li>
-          <li><FiFileText />My Applicants</li>
-          <li><FiBookmark />Saved Internships</li>
-          <li><FiUser />Student Profile</li>
-        </ul>
-      </div>
+        <p className='p-6'> © 2026 InternHub. All Rights Reserved.</p>
 
-      {/* third div  */}
-      <div>
-        <h1>For Companies</h1>
-        <ul>
-          <li><FiPlusSquare />Post Internships</li>
-          <li><FiUsers />Find Talent</li>
-          <li><FiClipboard />Manage Applicants</li>
-          <li><LuBuilding2 />Company Profile</li>
-        </ul>
-      </div>
-
-      {/* fourth div  */}
-      <div>
-        <h1>Company</h1>
-        <ul>
-          <li><FiInfo />About Us</li>
-          <li><FiPhone />Contact Us</li>
-          <li><FiBriefcase />Careers </li>
-          <li><FiHelpCircle />FAQ </li>
-        </ul>
-      </div>
-
-      {/* fifth div    */}
-      <div>
-        <h1>Connect</h1>
-        <ul>
-          <li><FaGithub />GitHub</li>
-          <li><FaLinkedin />LinkedIn</li>
-          <li><FiMail />Email Us</li>
-          <li><FaInstagram />Instagram</li>
-          <li><FaTwitter />Twitter</li>
-
-        </ul>
-      </div>
-
-      <div>
-
-        <p>2026 InternHUb. All Rights Reserved.</p>
-
-        <span>
+        <span className='p-6'>
           Privacy Policy | Terms of services | Contact
         </span>
       </div>

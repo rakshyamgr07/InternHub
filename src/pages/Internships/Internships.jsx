@@ -1,9 +1,10 @@
 import React from 'react'
+import InternshipCard from './InternshipCard'
 
 function Internships() {
   return (
     <div>
-      Internships
+      <InternshipCard/>
     </div>
   )
 }

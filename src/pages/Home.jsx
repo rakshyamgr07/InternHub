@@ -1,8 +1,8 @@
 import React from 'react'
 import Hero from './Hero'
 import InternHubSection from './InternHubSection'
-import InternshipCard from '../components/InternshipCard'
 import Footer from '../components/Footer'
+import InternshipCard from './Internships/InternshipCard'
 
 function Home() {
   return (
