@@ -92,6 +92,7 @@ function Footer() {
         </div>
       </div>
       {/* bottom  */}
+      <hr></hr>
       <div className='flex flex-row justify-center items-center gap-40'>
 
         <p className='p-6'> © 2026 InternHub. All Rights Reserved.</p>

@@ -7,6 +7,7 @@ import Companies from './pages/Companies/Companies'
 import About from './pages/About'
 import Login from './pages/Auth/Login'
 import Register from './pages/Auth/Register'
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
 
       </Routes>
     </div>
+
   )
 }
 

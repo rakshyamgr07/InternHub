@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaArrowRight } from 'react-icons/fa6';
 import { FiSearch } from "react-icons/fi";
+import { Link } from 'react-router-dom';
 function Hero() {
     return (
         <div className='flex min-h-screen'>
@@ -35,9 +36,11 @@ function Hero() {
 
                         <button type="submit" className='bg-blue-600 rounded-lg p-2 basis-1/3  transition duration-300  hover:cursor-pointer hover:bg-blue-800 text-white'>Search</button>
                     </div>
-                    <button className='flex flex-row justify-center gap-2 bg-blue-600 rounded-lg p-2 transition duration-300  hover:cursor-pointer hover:bg-blue-800 text-white p-2'> Explore Internships
+                   <Link to="/internships">
+                    <button className='flex flex-row justify-center w-full gap-2 bg-blue-600 rounded-lg p-2 transition duration-300  hover:cursor-pointer hover:bg-blue-800 text-white p-2'> Explore Internships
                         <span className='m-1'><FaArrowRight/></span>
                     </button>
+                    </Link>
                 </div>
 
                 {/* right side  */}
