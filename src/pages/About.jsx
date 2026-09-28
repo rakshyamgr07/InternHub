@@ -6,7 +6,7 @@ import { FaArrowRight } from 'react-icons/fa6'
 function About() {
   return (
     <div className=' min-h-full   '>
-      <div className=' min-h-full   p-4 flex flex-col gap-8 justify-center text-center items-center '>
+      <div className=' min-h-full   p-4 flex flex-col gap-10 justify-center text-center items-center '>
         <h1 className=" items-center gap-3  px-4 py-2 text-3xl sm:text-4xl lg:text-5xl w-fit  font-bold text-blue-600 mt-30">
           ABOUT INTERNHUB
           <div className="w-15 h-2 bg-blue-600 rounded-full mx-auto mt-3"></div>
