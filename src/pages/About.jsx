@@ -1,5 +1,4 @@
 import React from 'react'
-import InternshipCard from './Internships/InternshipCard'
 import { Link } from 'react-router-dom'
 import { FaArrowRight } from 'react-icons/fa6'
 

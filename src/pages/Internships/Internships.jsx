@@ -1,6 +1,5 @@
 import React from 'react'
-import InternshipCard from './InternshipCard'
-
+import InternshipCard from '../../components/InternshipCard'
 function Internships() {
   return (
     <div>
