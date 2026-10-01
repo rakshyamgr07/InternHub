@@ -1,9 +1,13 @@
+require('dotenv').config()
 const express = require("express")
+const connectDb = require("./config/DbConnect")
+const userRouter = require('./router/userRouter');
 const app =express()
+const PORT = process.env.PORT || 4000
+app.use(express.json())
 
-app.get("/",(req,res)=>{
-    console.log("hello.........")
-})
-app.listen(4000,()=>{
-    console.log("Server Started......")
+app.use("/api/v1/user",userRouter)
+app.listen(PORT,()=>{
+    console.log(`server started at ${PORT}`)
+    connectDb()
 })
