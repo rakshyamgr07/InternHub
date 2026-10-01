@@ -40,4 +40,11 @@ async function getUser(req,res){
           return handleError(res, error)
      }
 }
-module.exports = {createUser, getUser}
+async function getUserById(req,res){
+    try{
+
+    }catch(error){
+        return errorHandler(res,error)
+    }
+}
+module.exports = {createUser, getUser,getUserById}
