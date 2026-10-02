@@ -6,12 +6,23 @@ async function generateJWT(payload){
 }
 
 async function verifyJWT(token){
-    try{
-        let data = jwt.verify(token,process.env.JWT_SECRET)
-        return data
-    }catch(error){
-        return false
-    }
+   const user = await verifyJWT(token);
+
+console.log("Decoded user:", user);
+console.log("User ID:", user?.id);
+
+if (!user) {
+    return res.status(401).json({
+        success: false,
+        message: "Please sign in"
+    });
+}
+
+req.user = user.id;
+
+console.log("REQ.USER:", req.user);
+
+next();
 }
 
 async function decodeJWT(token) {

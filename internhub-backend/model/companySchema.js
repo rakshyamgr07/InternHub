@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const companySchema = new mongoose.Schema({
     companyName:{
         type:String,
@@ -15,10 +15,14 @@ const companySchema = new mongoose.Schema({
     website:{
         type:String
     },
+    location:{
+        type:String,
+        required:true
+    },
     isVerified:{
         type:Boolean
     },
-    user: {
+    creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required:true
