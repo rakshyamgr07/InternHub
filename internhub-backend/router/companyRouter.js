@@ -5,7 +5,7 @@ const { createCompany, getCompany, getCompanyById, deleteCompany, updateCompany 
 const route = express.Router()
 
 route.get("/",getCompany)
-route.post("/register",createCompany)
+route.post("/create",verifyUser,createCompany)
 
 route.get("/:id",getCompanyById)
 route.delete("/:id",verifyUser, deleteCompany)

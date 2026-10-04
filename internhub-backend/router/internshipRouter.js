@@ -5,7 +5,7 @@ const { getInternships, postInternship, getInternshipById, deleteInternship, upd
 const route = express.Router()
 
 route.get("/",getInternships)
-route.post("/post",postInternship)
+route.post("/post",verifyUser,postInternship)
 
 route.get("/:id",getInternshipById)
 route.delete("/:id",verifyUser, deleteInternship)

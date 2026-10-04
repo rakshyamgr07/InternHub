@@ -1,33 +1,72 @@
 const Company = require("../model/companySchema")
 const User = require("../model/userSchema")
 const errorHandler = require("../utils/errorHandler")
-const { generateJWT } = require("../utils/generateToken")
+const fs = require("fs")
+const { uploadImage, deleteImage } = require("../utils/uploadImage")
 
 
 async function createCompany(req, res) {
     try {
         const { companyName, description, website, location } = req.body
         const creator = req.user
-        console.log(creator)
+        if (!creator) {
+            return res.status(401).json({
+                success: false,
+                message: "Please login first"
+            })
+        }
+        const user = await User.findById(creator)
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            })
+        }
+        if (user.role !== "company") {
+            return res.status(403).json({
+                success: false,
+                message: "Only company users can create a company profile"
+            })
+        }
         if (!companyName) {
             return res.status(400).json({
                 success: false,
-                message: "please insert the company name"
+                message: "Please insert the company name"
             })
         }
-        const findUser = await User.findById(creator)
-       if (!findUser) {
-            return res.status(404).json({
-                success: false,
-                message: "user not found"
-            })
-        }
-        const newCompany = await Company.create({ creator, companyName, description, website, location })
+        const existingCompany = await Company.findOne({
+            creator: creator
+        })
 
-        return res.status(200).json({
+        if (existingCompany) {
+            return res.status(400).json({
+                success: false,
+                message: "Company profile already exists"
+            })
+        }
+        let logoUrl = ""
+        let logoId = ""
+
+        // Only upload when a file is actually provided
+        if (req.file) {
+            const image = req.file.path
+
+            const result = await uploadImage(image)
+
+            logoUrl = result.secure_url
+            logoId = result.public_id
+
+            fs.unlinkSync(image)
+        }
+
+        const company = await Company.create({
+            creator: creator, companyName,
+            logoUrl, logoId, description, website, location
+        })
+        return res.status(201).json({
             success: true,
-            messsage: "company created successfully",
-            company: newCompany
+            message: "Company created successfully",
+            company
         })
     } catch (error) {
         return errorHandler(res, error)
@@ -50,52 +89,58 @@ async function getCompany(req, res) {
 async function getCompanyById(req, res) {
     try {
         const id = req.params.id
-        console.log(id)
-        // const creator = req.body
-        // console.log(creator)
+
+        console.log("Company ID:", id)
+
         const company = await Company.findById(id)
-            .populate("user", "name email")
+            .populate("creator", "name email")
+
         if (!company) {
             return res.status(404).json({
                 success: false,
                 message: "Company not found"
-            });
+            })
         }
+
         return res.status(200).json({
             success: true,
-            message: "Company fetched",
-            companies: company
+            message: "Company fetched successfully",
+            company: company
         })
+
     } catch (error) {
         return errorHandler(res, error)
     }
-
 }
 
 async function deleteCompany(req, res) {
     try {
         const id = req.params.id
-        console.log(id)
         const creator = req.user
-        console.log(creator)
+
         const company = await Company.findById(id)
+
         if (!company) {
             return res.status(404).json({
-                success: "false",
-                message: "company not found"
+                success: false,
+                message: "Company not found"
             })
         }
-        if (creator !== company._id.toString()) {
+
+        if (creator !== company.creator.toString()) {
             return res.status(403).json({
                 success: false,
-                message: "you can only delete your own account"
+                message: "You can only delete your own company"
             })
         }
+
         await Company.deleteOne({ _id: id })
+
         return res.status(200).json({
             success: true,
-            message: "company deleted successfully"
+            message: "Company deleted successfully"
         })
+
     } catch (error) {
         return errorHandler(res, error)
     }
@@ -104,36 +149,49 @@ async function deleteCompany(req, res) {
 async function updateCompany(req, res) {
     try {
         const id = req.params.id
-        console.log(id)
         const { companyName, description, website, location } = req.body
-
         const creator = req.user
-        console.log(creator)
+
         const company = await Company.findById(id)
+
         if (!company) {
             return res.status(404).json({
                 success: false,
-                message: "company not found",
-            })
-        }
-        if (creator !== company._id.toString()) { //user._id object ma hunxw so it is needed to be converted to the string
-            return res.status(403).json({
-                success: false,
-                message: "you can only update your own account"
+                message: "Company not found"
             })
         }
 
-        await Company.updateOne({ _id: id }, { companyName, description, website, location }, { new: true })
-        const updateCompany = await Company.findById(id)
+        if (creator !== company.creator.toString()) {
+            return res.status(403).json({
+                success: false,
+                message: "You can only update your own company"
+            })
+        }
+
+        company.companyName = companyName
+        company.description = description
+        company.website = website
+        company.location = location
+
+        const updatedCompany = await company.save()
+        if (req.file) {
+            const logo = req.file.path;
+            await deleteImage(Company.logoId);
+            const { public_id, secure_url } = await uploadImage(logo)
+            updatedCompany.logoUrl = secure_url;
+            updatedCompany.logoId = public_id;
+            fs.unlinkSync(logo)
+        }
+        await Company.updateOne({ _id: id }, { $set: updatedCompany })
+
         return res.status(200).json({
             success: true,
-            message: "company updated successfully",
-            companies: updateCompany
+            message: "Company updated successfully",
+            company: updatedCompany
         })
 
     } catch (error) {
         return errorHandler(res, error)
     }
 }
-
 module.exports = { createCompany, getCompany, getCompanyById, deleteCompany, updateCompany }

@@ -4,6 +4,7 @@ const connectDb = require("./config/DbConnect")
 const userRouter = require('./router/userRouter');
 const companyRouter = require('./router/companyRouter');
 const internshipRouter = require('./router/internshipRouter');
+const cloudinaryConfig = require('./config/cloudinary');
 
 
 const app =express()
@@ -18,4 +19,5 @@ app.use("/api/v1/internship",internshipRouter)
 app.listen(PORT,()=>{
     console.log(`server started at ${PORT}`)
     connectDb()
+    cloudinaryConfig()
 })
