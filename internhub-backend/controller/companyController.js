@@ -1,4 +1,5 @@
 const Company = require("../model/companySchema")
+const User = require("../model/userSchema")
 const errorHandler = require("../utils/errorHandler")
 const { generateJWT } = require("../utils/generateToken")
 
@@ -14,14 +15,12 @@ async function createCompany(req, res) {
                 message: "please insert the company name"
             })
         }
-        const existingCompany = await Company.findOne({creator})
-        if (existingCompany) {
-            if (existingCompany.verify) {
-                return res.status(400).json({
-                    success: false,
-                    message: "company profile already exist"
-                })
-            }
+        const findUser = await User.findById(creator)
+       if (!findUser) {
+            return res.status(404).json({
+                success: false,
+                message: "user not found"
+            })
         }
         const newCompany = await Company.create({ creator, companyName, description, website, location })
 
