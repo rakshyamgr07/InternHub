@@ -8,7 +8,7 @@ const { uploadImage, deleteImage } = require("../utils/uploadImage")
 async function createCompany(req, res) {
     try {
         const { companyName, description, website, location } = req.body
-        const creator = req.user
+        const creator = req.user.id
         if (!creator) {
             return res.status(401).json({
                 success: false,
@@ -116,7 +116,7 @@ async function getCompanyById(req, res) {
 async function deleteCompany(req, res) {
     try {
         const id = req.params.id
-        const creator = req.user
+        const creator = req.user.id
 
         const company = await Company.findById(id)
 
@@ -150,7 +150,7 @@ async function updateCompany(req, res) {
     try {
         const id = req.params.id
         const { companyName, description, website, location } = req.body
-        const creator = req.user
+        const creator = req.user.id
 
         const company = await Company.findById(id)
 

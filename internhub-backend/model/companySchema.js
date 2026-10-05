@@ -33,7 +33,11 @@ const companySchema = new mongoose.Schema({
     verify: {
         type: Boolean,
         default: false
-    }
+    },
+    internshipPosted: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Internship"
+    },
 }, { timestamps: true })
 
 const Company = mongoose.model("Company", companySchema)

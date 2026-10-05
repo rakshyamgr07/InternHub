@@ -7,7 +7,7 @@ const errorHandler = require("../utils/errorHandler")
 async function postInternship(req, res) {
     try {
         const { title, description, skills, location, type, duration, stipend, deadline } = req.body
-        const creator = req.user
+        const creator = req.user.id
         if (!title || !description || !creator) {
             return res.status(400).json({
                 success: false,
@@ -27,6 +27,7 @@ async function postInternship(req, res) {
             title, description, skills, location, type, duration, stipend,
             deadline
         })
+        await Company.findByIdAndUpdate(creator, { $push: { internshipPosted: newInternship._id } })
         return res.status(200).json({
             success: true,
             messsage: "Internship created successfully",
@@ -81,7 +82,7 @@ async function deleteInternship(req, res) {
     try {
         const id = req.params.id
         console.log(id)
-        const creator = req.user
+        const creator = req.user.id
         console.log(creator)
         const internship = await Internship.findById(id)
         if (!internship) {
@@ -121,7 +122,7 @@ async function updateInternship(req, res) {
         const { title, description, skills, location,
             type, duration, stipend, deadline, status } = req.body
 
-        const creator = req.user
+        const creator = req.user.id
         console.log(creator)
         const internship = await Internship.findById(id)
         if (!internship) {

@@ -26,9 +26,10 @@ async function createUser(req, res) {
         const hashPassword = await bcrypt.hash(password, 10)
         const newUser = await User.create({ name, email, password: hashPassword, role })
 
-        let token = await generateJWT({
+        const token = await generateJWT({
             id: newUser._id,
             email: newUser.email,
+            role:newUser.role
         })
         await sendVerificationEmail(newUser.email, token)
 
@@ -124,7 +125,7 @@ async function deleteUser(req, res) {
     try {
         const id = req.params.id
         console.log(id)
-        const creator = req.user
+        const creator = req.user.id
         console.log(creator)
         const user = await User.findById(id)
         if (!user) {
@@ -138,6 +139,47 @@ async function deleteUser(req, res) {
                 success: false,
                 message: "you can only delete your own account"
             })
+        }
+         if (user.role === "admin") {
+            return res.status(403).json({
+                success: false,
+                message: "Admin cannot be deleted"
+            })
+        }
+        if (user.role === "company") {
+
+            // Find company created by this user
+            const company = await Company.findOne({
+                creator: user._id
+            })
+
+            if (company) {
+
+                // Find all internships of this company
+                const internships = await Internship.find({
+                    company: company._id
+                })
+
+                // Get internship IDs
+                const internshipIds = internships.map(
+                    internship => internship._id
+                )
+
+                // Delete applications related to those internships
+                if (internshipIds.length > 0) {
+                    await Application.deleteMany({
+                        internship: { $in: internshipIds }
+                    })
+                }
+
+                // Delete internships
+                await Internship.deleteMany({
+                    company: company._id
+                })
+
+                // Delete company
+                await Company.findByIdAndDelete(company._id)
+            }
         }
         await User.deleteOne({ _id: id })
         return res.status(200).json({
@@ -155,7 +197,7 @@ async function updateUser(req, res) {
         console.log(id)
         const { name, email, password, role } = req.body
 
-        const creator = req.user
+        const creator = req.user.id
         console.log(creator)
         const user = await User.findById(id)
         if (!user) {

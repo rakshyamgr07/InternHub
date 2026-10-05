@@ -7,23 +7,23 @@ const applicationSchema = new mongoose.Schema(
             ref: "User",
             required: true
         },
-
         internship: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Internship",
             required: true
         },
-
         coverLetter: {
             type: String,
             required: true
         },
-
-        resume: {
+        resumeUrl: {
             type: String,
-            default: ""
+            required: true,
         },
-
+        resumeId: {
+            type: String,
+            required: true,
+        },
         status: {
             type: String,
             enum: [
@@ -35,7 +35,7 @@ const applicationSchema = new mongoose.Schema(
             ],
             default: "pending"
         }
-    }, {timestamps: true}
+    }, { timestamps: true }
 )
-const Application = mongoose.model("Application",applicationSchema)
+const Application = mongoose.model("Application", applicationSchema)
 module.exports = Application

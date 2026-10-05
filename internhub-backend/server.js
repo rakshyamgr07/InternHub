@@ -5,6 +5,7 @@ const userRouter = require('./router/userRouter');
 const companyRouter = require('./router/companyRouter');
 const internshipRouter = require('./router/internshipRouter');
 const applicationRouter = require('./router/applicationRouter');
+const adminRouter = require('./router/adminRouter');
 const cloudinaryConfig = require('./config/cloudinary');
 
 
@@ -16,6 +17,8 @@ app.use("/api/v1/user",userRouter)
 app.use("/api/v1/company",companyRouter)
 app.use("/api/v1/internship",internshipRouter)
 app.use("/api/v1/application",applicationRouter)
+app.use("/api/v1/admin",adminRouter)
+
 
 
 app.listen(PORT,()=>{
