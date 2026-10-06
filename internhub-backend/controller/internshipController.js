@@ -164,4 +164,33 @@ async function updateInternship(req, res) {
     }
 }
 
-module.exports = { postInternship, getInternships, getInternshipById, deleteInternship, updateInternship }
+async function searchInternships(req, res) {
+    try {
+        const { search } = req.query
+
+        if (!search) {
+            return res.status(400).json({
+                success: false,
+                message: "Please enter a search keyword"
+            })
+        }
+
+        const internships = await Internship.find({
+            $or: [{ title: { $regex: search, $options: "i" } },
+            { description: { $regex: search, $options: "i" } },
+            { skills: { $regex: search, $options: "i" } },
+            { location: { $regex: search, $options: "i" } }
+            ]
+        }).populate("company", "companyName logoUrl")
+
+        return res.status(200).json({
+            success: true,
+            message: "Search results fetched successfully",
+            internships
+        })
+
+    } catch (error) {
+        return errorHandler(res, error)
+    }
+}
+module.exports = { postInternship, getInternships, getInternshipById, deleteInternship, updateInternship,searchInternships }

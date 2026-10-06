@@ -50,7 +50,7 @@ async function deleteUser(req, res) {
     }
 }
 async function getAllCompanies(req, res) {
-     try {
+    try {
 
         const companies = await Company.find()
             .populate("creator", "name email")
@@ -66,7 +66,7 @@ async function getAllCompanies(req, res) {
     }
 }
 async function verifyCompany(req, res) {
-     try {
+    try {
 
         const { id } = req.params
 
@@ -126,7 +126,7 @@ async function deleteCompany(req, res) {
     }
 }
 async function getAllInternships(req, res) {
-     try {
+    try {
 
         const internships = await Internship.find()
             .populate("company", "companyName location verify")
@@ -189,10 +189,10 @@ async function getDashBoardStatus(req, res) {
         const totalStudents = await User.countDocuments({ role: "student" })
         const totalCompaniesUsers = await User.countDocuments({ role: "company" })
         const totalCompanies = await Company.countDocuments()
-        const verifiedCompanies = await Company.countDocuments({ verify: true})
+        const verifiedCompanies = await Company.countDocuments({ verify: true })
         const totalInternships = await Internship.countDocuments()
         const totalApplications = await Application.countDocuments()
-        
+
         return res.status(200).json({
             success: true,
             message: "Dashboard statistics fetched successfully",
@@ -211,4 +211,6 @@ async function getDashBoardStatus(req, res) {
         return errorHandler(res, error)
     }
 }
+
+
 module.exports = { getAllUsers, deleteUser, getAllCompanies, verifyCompany, deleteCompany, getAllInternships, deleteInternships, getAllApplications, getDashBoardStatus }
