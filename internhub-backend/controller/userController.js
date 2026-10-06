@@ -3,7 +3,10 @@ const errorHandler = require("../utils/errorHandler")
 const { generateJWT } = require("../utils/generateToken")
 const bcrypt = require('bcrypt');
 
-const { sendVerificationEmail } = require("../utils/sendEmail")
+const { sendVerificationEmail } = require("../utils/sendEmail");
+const Internship = require("../model/internshipSchema");
+const Company = require("../model/companySchema");
+const Application = require("../model/applicationSchema");
 
 async function createUser(req, res) {
     try {
@@ -91,7 +94,7 @@ async function userLogin(req, res) {
                 message: "User not registered"
             })
         }
-        let token = await generateJWT({ email: existingUser.email, id: existingUser._id })
+        let token = await generateJWT({ email: existingUser.email, id: existingUser._id, role: existingUser.role })
         if (!existingUser.verify) {
             await sendVerificationEmail(existingUser.email, token)
             return res.status(200).json({
@@ -113,6 +116,7 @@ async function userLogin(req, res) {
                 id: existingUser._id,
                 name: existingUser.name,
                 email: existingUser.email,
+                role: existingUser.role,
                 token
             }
         })
@@ -228,4 +232,72 @@ async function updateUser(req, res) {
         return errorHandler(res, error)
     }
 }
-module.exports = { createUser, getUser, getUserById, userLogin, deleteUser, updateUser }
+
+async function forgotPassword(req, res) {
+    try {
+        const { email } = req.body
+        if (!email) {
+            return res.status(404).json({
+                success: false,
+                message: "Email is required"
+            })
+        }
+        const user = await User.findOne({email})
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "user not found"
+            })
+        }
+
+        let token = await generateJWT({ email: user.email, id: user._id ,role:user.role})
+
+        await sendResetPasswordEmail(user.email, token)
+        return res.status(200).json({
+            success: true,
+            message: "Password reset link sent to your email",
+        })
+
+    } catch (error) {
+        return errorHandler(res, error)
+    }
+}
+
+async function resetPassword(req, res) {
+    try {
+       const { resetToken } = req.params
+       const { newPassword } = req.body
+        if (!newPassword) {
+            return res.status(404).json({
+                success: false,
+                message: "Password is required"
+            })
+        }
+        const token = await verifyJWT(resetToken)
+        if (!token) {
+            return res.status(400).json({
+                success: false,
+                message: "invalid token/email expired",
+            })
+        }
+
+        const { id } = token
+        const user = await User.findById(id)
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "user not found"
+            })
+        }
+
+        const hashPassword = await bcrypt.hash(newPassword,10)
+        await User.updateOne({ _id: id }, { password: hashPassword })
+        return res.status(200).json({
+            success: true,
+            message: "password reset successfully",
+        })
+    } catch (error) {
+        return errorHandler(res, error)
+    }
+}
+module.exports = { createUser, getUser, getUserById, userLogin, deleteUser, updateUser,forgotPassword,resetPassword }

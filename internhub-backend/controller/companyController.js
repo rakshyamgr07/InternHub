@@ -9,6 +9,7 @@ async function createCompany(req, res) {
     try {
         const { companyName, description, website, location } = req.body
         const creator = req.user.id
+        console.log(creator)
         if (!creator) {
             return res.status(401).json({
                 success: false,

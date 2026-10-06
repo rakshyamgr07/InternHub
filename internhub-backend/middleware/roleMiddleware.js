@@ -7,7 +7,7 @@ const roleMiddleware = (requiredRole) => {
                     message: "Please login first"
                 })
             }
-
+console.log(req.user)
             if (req.user.role !== requiredRole) {
                 return res.status(403).json({
                     success: false,

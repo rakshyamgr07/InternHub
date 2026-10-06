@@ -1,4 +1,8 @@
+const Application = require("../model/applicationSchema")
+const Company = require("../model/companySchema")
+const Internship = require("../model/internshipSchema")
 const User = require("../model/userSchema")
+const errorHandler = require("../utils/errorHandler")
 
 async function getAllUsers(req, res) {
     try {
