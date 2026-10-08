@@ -3,7 +3,7 @@ const errorHandler = require("../utils/errorHandler")
 const { generateJWT, verifyJWT } = require("../utils/generateToken")
 const bcrypt = require('bcrypt');
 
-const { sendVerificationEmail } = require("../utils/sendEmail");
+const { sendVerificationEmail, sendResetPasswordEmail } = require("../utils/sendEmail");
 const Internship = require("../model/internshipSchema");
 const Company = require("../model/companySchema");
 const Application = require("../model/applicationSchema");

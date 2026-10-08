@@ -87,7 +87,7 @@ function Login() {
               className="border border-gray-900 rounded-sm text-gray-700 p-2"
 
             />
-            <a href="" className=" text-sm hover:text-blue-800  hover:underline hover:decoration-solid">Forgot password?</a>
+            <a href="/forgot-password" className=" text-sm hover:text-blue-800  hover:underline hover:decoration-solid">Forgot password?</a>
             </div>
 
             <Button type="submit" loading={loading}>Login</Button>

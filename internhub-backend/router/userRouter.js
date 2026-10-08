@@ -9,8 +9,8 @@ route.post("/register",createUser)
 route.post("/login",userLogin)
 route.get("/verify-email/:verificationToken", verifyToken)
 
-route.post("/reset-password/:resetToken", resetPassword)
 route.post("/forgot-password", forgotPassword)
+route.post("/reset-password/:resetToken", resetPassword)
 
 route.get("/:id",getUserById)
 route.delete("/:id",verifyUser, deleteUser)

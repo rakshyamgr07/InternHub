@@ -40,7 +40,7 @@ function App() {
           <Route path="/register" element={<Register />}></Route>
          <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-email/:verificationToken" element={<VerifyUser />} />
-        <Route path="/reset-email/:token" element={<ResetPassword/>} />
+        <Route path="/reset-password/:token" element={<ResetPassword/>} />
 
 
       </Routes>
