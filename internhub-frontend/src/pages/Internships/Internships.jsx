@@ -24,7 +24,7 @@ function Internships() {
 
 
         {/* Search */}
-        <div className="flex gap-2 items-center justify-center">
+        {/* <div className="flex gap-2 items-center justify-center">
 
           <div className="flex items-center border border-gray-300 shadow-md rounded-lg px-2">
 
@@ -35,7 +35,7 @@ function Internships() {
           </div>
 
           <button type="submit" className="bg-blue-600 rounded-lg p-2 transition duration-300 hover:bg-blue-800 text-white" > Search</button>
-           </div>
+           </div> */}
 
       </div>
 

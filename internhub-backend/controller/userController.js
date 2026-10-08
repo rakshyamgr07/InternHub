@@ -1,6 +1,6 @@
 const User = require("../model/userSchema")
 const errorHandler = require("../utils/errorHandler")
-const { generateJWT } = require("../utils/generateToken")
+const { generateJWT, verifyJWT } = require("../utils/generateToken")
 const bcrypt = require('bcrypt');
 
 const { sendVerificationEmail } = require("../utils/sendEmail");

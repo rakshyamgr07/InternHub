@@ -22,7 +22,8 @@ const companySchema = new mongoose.Schema({
         type: String
     },
     website: {
-        type: String
+        type: String,
+        unique:true
     },
     location: {
         type: String

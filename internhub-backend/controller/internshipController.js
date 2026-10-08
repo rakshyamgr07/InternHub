@@ -92,7 +92,7 @@ async function deleteInternship(req, res) {
             })
         }
 
-        const company = await Company.findOne({creator})
+        const company = await Company.findOne({ creator })
         if (!company) {
             return res.status(404).json({
                 success: false,
@@ -166,31 +166,47 @@ async function updateInternship(req, res) {
 
 async function searchInternships(req, res) {
     try {
-        const { search } = req.query
+        const { q, location } = req.query;
 
-        if (!search) {
+        if (!q && !location) {
             return res.status(400).json({
                 success: false,
-                message: "Please enter a search keyword"
-            })
+                message: "Please enter a search keyword or select a location"
+            });
+        }
+
+        const filters = [];
+
+        // Search keyword
+        if (q) {
+            filters.push({
+                $or: [
+                    { title: { $regex: q, $options: "i" } },
+                    { description: { $regex: q, $options: "i" } },
+                    { skills: { $regex: q, $options: "i" } }
+                ]
+            });
+        }
+
+        // Location filter
+        if (location) {
+            filters.push({
+                location: { $regex: location, $options: "i" }
+            });
         }
 
         const internships = await Internship.find({
-            $or: [{ title: { $regex: search, $options: "i" } },
-            { description: { $regex: search, $options: "i" } },
-            { skills: { $regex: search, $options: "i" } },
-            { location: { $regex: search, $options: "i" } }
-            ]
-        }).populate("company", "companyName logoUrl")
+            $and: filters
+        }).populate("company", "companyName logoUrl");
 
         return res.status(200).json({
             success: true,
             message: "Search results fetched successfully",
             internships
-        })
+        });
 
     } catch (error) {
-        return errorHandler(res, error)
+        return errorHandler(res, error);
     }
 }
-module.exports = { postInternship, getInternships, getInternshipById, deleteInternship, updateInternship,searchInternships }
+module.exports = { postInternship, getInternships, getInternshipById, deleteInternship, updateInternship, searchInternships }

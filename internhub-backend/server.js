@@ -23,7 +23,7 @@ app.use("/api/v1/application",applicationRouter)
 app.use("/api/v1/admin",adminRouter)
 
 
-
+ 
 app.listen(PORT,()=>{
     console.log(`server started at ${PORT}`)
     connectDb()

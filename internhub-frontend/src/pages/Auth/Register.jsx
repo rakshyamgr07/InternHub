@@ -39,7 +39,7 @@ function Register() {
 
     } catch (error) {
 
-      toast.error(error.response?.data?.message );
+      toast.error(error.response?.data?.message);
 
     } finally {
       setLoading(false);
@@ -68,10 +68,10 @@ function Register() {
               {/* Student */}
               <button
                 type="button"
-                onClick={() => handleRoleChange("student") }
+                onClick={() => handleRoleChange("student")}
                 className={`p-4 rounded-xl border-2 transition ${form.role === "student" ? "border-[#2563EB] bg-blue-50" : "border-slate-200 hover:border-blue-300"}`}
               >
-                <FiUser className={`mx-auto text-2xl ${form.role === "student"  ? "text-[#2563EB]" : "text-[#64748B]" }`}/>
+                <FiUser className={`mx-auto text-2xl ${form.role === "student" ? "text-[#2563EB]" : "text-[#64748B]"}`} />
 
                 <p className="mt-2 text-sm font-semibold text-[#1E293B]">Student </p>
               </button>
@@ -80,8 +80,8 @@ function Register() {
               <button
                 type="button"
                 onClick={() => handleRoleChange("company")}
-                className={`p-4 rounded-xl border-2 transition ${form.role === "company"? "border-[#2563EB] bg-blue-50": "border-slate-200 hover:border-blue-300"}`}>
-                <Building2 className={`mx-auto text-2xl ${form.role === "student"  ? "text-[#2563EB]" : "text-[#64748B]" }`}/>
+                className={`p-4 rounded-xl border-2 transition ${form.role === "company" ? "border-[#2563EB] bg-blue-50" : "border-slate-200 hover:border-blue-300"}`}>
+                <Building2 className={`mx-auto text-2xl ${form.role === "student" ? "text-[#2563EB]" : "text-[#64748B]"}`} />
 
                 <p className="mt-2 text-sm font-semibold text-[#1E293B]">Company </p>
               </button>
@@ -125,8 +125,8 @@ function Register() {
             placeholder="Re-type Password"
             className="border border-gray-900 rounded-sm  text-gray-700 p-2"
           />
-                      <Button type="submit" loading={loading}>Register</Button>
-          
+          <Button type="submit" loading={loading}>Register</Button>
+
 
           <p className="text-center flex justify-center gap-1">Already have an account?
             <a href="/login" className="hover:text-blue-800  hover:underline hover:decoration-solid">Log in</a>

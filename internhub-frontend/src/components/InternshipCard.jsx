@@ -1,76 +1,107 @@
-import React from 'react'
-import { FaArrowRight, FaCalendar, FaClock, FaLocationDot, FaRadio, FaReact } from 'react-icons/fa6'
-import { SiJavascript } from 'react-icons/si'
+import axios from 'axios';
+import { useEffect, useState } from 'react'
+import Button from './Button';
 
 function InternshipCard() {
+  const [internships, setInternships] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchInternships = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/internship`);
+
+        const data = response.data;
+
+        setInternships(data.internships || []);
+
+      } catch (error) {
+        console.error(error);
+
+        setError(
+          error.response?.data?.message ||
+          error.message ||
+          "Failed to fetch internships"
+        );
+
+        setInternships([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInternships();
+  }, []);
   return (
-    <div className=' min-h-full   p-4 flex flex-col items-center '>
-      <div className="flex justify-center items-center text-center gap-3 mt-30 rounded-full bg-blue-50 px-4 py-2 text-sm w-fit  font-bold text-blue-600">
-        <span className="h-2 w-2 rounded-full bg-blue-600"></span>
 
-       SOME INTERNSHIPS
+    <div className="min-h-screen bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl">
 
-        <span className="h-2 w-2 rounded-full bg-blue-600"></span>
-      </div>
+        <h1 className="mb-8 text-3xl font-bold text-slate-900">Search Internships  </h1>
 
+        {loading && (
+          <p className="py-10 text-center text-sm font-medium text-blue-600"> Loading...</p>
+        )}
 
-      <div className='flex flex-col md:flex-row'>
-        <div className='flex flex-col gap-5 min-h-full shadow-xl/20 rounded-lg p-6 m-4 w-fit'>
+        {error && (<p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600"> {error} </p>)}
 
-        <div className='flex gap-4'>
-          <img src="/logo1.png" alt="" className='w-8 h-8 rounded-full object-cover' />
-          <h1 className='font-bold text-xl text-blue-700 '>ABC Company</h1>
-        </div>
+        {!loading && !error && internships.length === 0 && (
+          <p className="rounded-xl border border-slate-200 bg-white px-6 py-10 text-center text-slate-500 shadow-sm">  No internships found.</p>
+        )}
 
-        <div className='flex flex-col gap-4'>
-          <h1 className='text-xl font-semibold'>Frontend Developer Intern</h1>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {internships.map((internship) => (
+            <div key={internship._id}
+              className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <div className="mb-4 flex items-center gap-3">
+                <img
+                  src={internship.company?.logo}
+                  alt={internship.company?.companyName || "Company logo"}
+                  className="h-12 w-12 rounded-full border border-slate-200 "
+                />
 
-          <h3 className='flex gap-2  '>
-            <span className='text-blue-700 m-1'> <FaLocationDot /></span>
-            Kathmandu
-          </h3>
+                <div>
+                  <p className="text-xl font-bold text-blue-600">
+                    {internship.company?.companyName}
+                  </p>
+                  <p className="text-xs text-slate-500">
+                    Internship Opportunity
+                  </p>
+                </div>
+              </div>
+              <h2 className="mb-3 text-xl font-semibold text-slate-900">{internship.title}</h2>
+              <p className="mb-5 line-clamp-3 text-sm leading-6 text-slate-600">{internship.description}</p>
+              <div className="space-y-3 border-t border-slate-100 pt-4">
+                <p className="text-sm text-slate-600">
+                  <span className="font-semibold text-slate-800">Location:</span>{" "}{internship.location}
+                </p>
+                <p className="text-sm text-slate-600">
+                  <span className="font-semibold text-slate-800">Type:</span>{" "}{internship.type}
+                </p>
+                <p className="text-sm text-slate-600">
+                  <span className="font-semibold text-slate-800">Duration:</span>{" "}{internship.duration}
+                </p>
+                <p className="text-sm text-slate-600">
+                  <span className="font-semibold text-slate-800">Stipend:</span>{" "}
+                  <span className="font-medium text-green-600">{internship.stipend}</span>
+                </p>
+                <a href="/application">
+                  <Button type="submit" loading={loading}>Apply Now</Button>
+                </a>
 
-          <h3 className='flex gap-2 '>
-            <span className='text-blue-700 m-1'> <FaRadio /></span>
-            Rs. 10,000/month
-          </h3>
-
-          <h3 className='flex gap-2 ' >
-            <span className='text-blue-700 m-1'><FaClock /></span>
-            3 Months
-          </h3>
-
-          <div className='flex gap-3 '>
-            <div className='flex  gap-2 shadow-xl/10 rounded-sm p-1 m-1'>
-              <span className='text-blue-400 m-1'><FaReact /></span>
-              React
+              </div>
             </div>
-            <div className='flex  gap-2 shadow-xl/10 rounded-sm p-1 m-1'>
-              <span className=' text-yellow-500 m-1'><SiJavascript /></span>
-              JavaScript
-            </div>
-          </div>
-
-          <div className='flex justify-between gap-3'>
-            <span className=' text-blue-500 m-1'><FaCalendar /></span>
-            <h3 className='flex gap-1'>Deadline:
-              <span className=' text-blue-700 font-semibold' >Sep 20</span>
-            </h3>
-
-
-            <button type="submit" className='bg-blue-500 gap-1 rounded-sm flex p-1 text-white transition duration-300 hover:scale-105 hover:bg-blue-800 hover:cursor-pointer'>View Details
-              <span className='text-white m-2 text-sm'><FaArrowRight /></span>
-            </button>
-          </div>
-          <div>
-
-          </div>
+          ))}
         </div>
+      </div>
 
-      </div>
-      </div>
     </div>
-  )
+  );
+
 }
 
 export default InternshipCard
