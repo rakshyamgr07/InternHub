@@ -18,13 +18,19 @@ async function createUser(req, res) {
             })
         }
         const existingUser = await User.findOne({ email })
+
         if (existingUser) {
             if (existingUser.verify) {
                 return res.status(400).json({
                     success: false,
-                    message: "user with this email already exist"
+                    message: "User with this email already exists"
                 })
             }
+
+            return res.status(400).json({
+                success: false,
+                message: "Please verify your email before registering again"
+            })
         }
         const hashPassword = await bcrypt.hash(password, 10)
         const newUser = await User.create({ name, email, password: hashPassword, role })
@@ -32,7 +38,7 @@ async function createUser(req, res) {
         const token = await generateJWT({
             id: newUser._id,
             email: newUser.email,
-            role:newUser.role
+            role: newUser.role
         })
         await sendVerificationEmail(newUser.email, token)
 
@@ -144,7 +150,7 @@ async function deleteUser(req, res) {
                 message: "you can only delete your own account"
             })
         }
-         if (user.role === "admin") {
+        if (user.role === "admin") {
             return res.status(403).json({
                 success: false,
                 message: "Admin cannot be deleted"
@@ -242,7 +248,7 @@ async function forgotPassword(req, res) {
                 message: "Email is required"
             })
         }
-        const user = await User.findOne({email})
+        const user = await User.findOne({ email })
         if (!user) {
             return res.status(404).json({
                 success: false,
@@ -250,7 +256,7 @@ async function forgotPassword(req, res) {
             })
         }
 
-        let token = await generateJWT({ email: user.email, id: user._id ,role:user.role})
+        let token = await generateJWT({ email: user.email, id: user._id, role: user.role })
 
         await sendResetPasswordEmail(user.email, token)
         return res.status(200).json({
@@ -265,8 +271,8 @@ async function forgotPassword(req, res) {
 
 async function resetPassword(req, res) {
     try {
-       const { resetToken } = req.params
-       const { newPassword } = req.body
+        const { resetToken } = req.params
+        const { newPassword } = req.body
         if (!newPassword) {
             return res.status(404).json({
                 success: false,
@@ -290,7 +296,7 @@ async function resetPassword(req, res) {
             })
         }
 
-        const hashPassword = await bcrypt.hash(newPassword,10)
+        const hashPassword = await bcrypt.hash(newPassword, 10)
         await User.updateOne({ _id: id }, { password: hashPassword })
         return res.status(200).json({
             success: true,
@@ -300,4 +306,38 @@ async function resetPassword(req, res) {
         return errorHandler(res, error)
     }
 }
-module.exports = { createUser, getUser, getUserById, userLogin, deleteUser, updateUser,forgotPassword,resetPassword }
+
+
+async function verifyToken(req, res) {
+    try {
+        const { verificationToken } = req.params
+        console.log(verificationToken)
+        const token = await verifyJWT(verificationToken)
+        console.log(token)
+        if (!token) {
+            return res.status(400).json({
+                success: false,
+                message: "invalid token/email expired",
+            })
+        }
+
+        const { id } = token
+        const user = await User.findById(id)
+        console.log(user)
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "user not found"
+            })
+        }
+        await User.updateOne({ _id: id }, { verify: true })
+        return res.status(200).json({
+            success: true,
+            message: "email verified successfully",
+        })
+
+    } catch (error) {
+        return errorHandler(res, error)
+    }
+}
+module.exports = { createUser, getUser, getUserById, userLogin, deleteUser, updateUser, forgotPassword, resetPassword ,verifyToken}

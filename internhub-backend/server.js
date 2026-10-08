@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require("express")
+const cors = require("cors")
 const connectDb = require("./config/DbConnect")
 const userRouter = require('./router/userRouter');
 const companyRouter = require('./router/companyRouter');
@@ -11,6 +12,8 @@ const cloudinaryConfig = require('./config/cloudinary');
 
 const app =express()
 const PORT = process.env.PORT || 4000
+app.use(cors())
+
 app.use(express.json())
 
 app.use("/api/v1/user",userRouter)

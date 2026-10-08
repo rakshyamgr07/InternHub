@@ -38,7 +38,7 @@ function Footer() {
           </div>
           <ul className='flex flex-col gap-4'>
             <li className='flex flex-row gap-2 items-center'><FaSearch />Browse Internships</li>
-            <li className='flex flex-row gap-2 items-center'><FiFileText />My Applicants</li>
+            <li className='flex flex-row gap-2 items-center'><FiFileText />My Applications</li>
             <li className='flex flex-row gap-2 items-center'><FiBookmark />Saved Internships</li>
             <li className='flex flex-row gap-2 items-center'><FiUser />Student Profile</li>
           </ul>

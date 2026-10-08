@@ -54,7 +54,7 @@ function About() {
       <section className="w-full bg-gradient-to-r text-center from-blue-50 to-white">
         <div className="mx-auto  px-6 py-16 lg:px-10 lg:py-20 ">
           <div className="mt-20">
-            <p className="mb-4 text-sm font-bold uppercase tracking-widest text-blue-600"> About InternHub</p>
+            <p className="mb-4 text-2xl font-bold uppercase tracking-widest text-blue-600"> About InternHub</p>
             <h1 className="text-4xl font-bold leading-tight text-[#001B3D] sm:text-5xl lg:text-6xl"> Where Careers{" "}
               <span className="text-blue-600"> Begin.</span>
             </h1>
@@ -106,7 +106,7 @@ function About() {
             {steps.map((step, index) => {
               const Icon = step.icon;
               return (
-                <div key={step.title} className="relative flex gap-5 rounded-2xl border border-blue-100 bg-white p-6 shadow-[0_0_25px_rgba(37,99,235,0.06)]" >
+                <div key={step.title} className="relative flex gap-5 rounded-2xl border border-blue-100 bg-white p-6 shadow-[0_0_25px_rgba(37,99,235,0.06)] transition duration:300 hover:scale-105" >
                   {/* Number */}
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-lg font-bold text-blue-600"> {step.number} </div>
                   <div>

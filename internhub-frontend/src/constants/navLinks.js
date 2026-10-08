@@ -5,11 +5,11 @@ export const navLinks = [
     },
      {
         name:"Internships",
-        path:"/internships"
+        path:"/internship"
     },
      {
         name:"Companies",
-        path:"/companies"
+        path:"/company"
     },
      {
         name:"About",

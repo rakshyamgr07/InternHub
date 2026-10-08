@@ -1,7 +1,16 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import  { useState } from "react";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../../utils/userSlice";
+import Button from "../../components/Button";
 
 function Login() {
+  const dispatch = useDispatch()
+  const navigator = useNavigate()
+  const [loading, setLoading] = useState(false)
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -14,19 +23,23 @@ function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    localStorage.setItem("email", form.email);
-    localStorage.setItem("password", form.password);
-
-    toast.success("Login successful");
-
-    setForm({
-      email: "",
-      password: "",
-    });
-  };
+ async function handleSubmit(e) {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/user/login`, form)
+      console.log("FULL LOGIN RESPONSE:", res.data);
+      console.log("USER:", res.data.user);
+      toast.success(res.data.message)
+      dispatch(login(res.data.user))
+      navigator("/")
+    } catch (error) {
+      toast.error(error.response.data.message)
+    }
+    finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="flex flex-col justify-center items-center h-screen ">
@@ -77,12 +90,8 @@ function Login() {
             <a href="" className=" text-sm hover:text-blue-800  hover:underline hover:decoration-solid">Forgot password?</a>
             </div>
 
-            <button
-              type="submit"
-              className="bg-blue-500 text-white p-2  rounded transition duration-300 hover:scale-105 hover:bg-blue-700"
-            >
-              Login
-            </button>
+            <Button type="submit" loading={loading}>Login</Button>
+            
             <p className="text-center flex justify-center gap-1">Don't have an account?
               <a href="/register" className="hover:text-blue-800  hover:underline hover:decoration-solid">Sign Up</a>
             </p>
