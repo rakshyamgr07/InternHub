@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import Button from '../../components/Button';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 function InternshipCard() {
   const [companies, setCompanies] = useState([]);
@@ -53,13 +53,14 @@ function InternshipCard() {
         {!loading && !error && companies.length === 0 && (
           <p className="rounded-xl border border-slate-200 bg-white px-6 py-10 text-center text-slate-500 shadow-sm">  No internships found.</p>
         )}
-          <h1 className='m-5 font-bold text-3xl '>Companies Registered in InternHub</h1>
+        <h1 className='m-5 font-bold text-3xl '>Companies Registered in InternHub</h1>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {companies.map((company) => (
-            <div key={company._id}
-              className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-              <div className="mb-4 flex items-center gap-3">
+            <div
+              key={company._id}
+              className="flex h-full flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+            > <div className="mb-4 flex items-center gap-3">
                 <img
                   src={company?.logo}
                   alt={company?.companyName || "Company logo"}
@@ -86,15 +87,16 @@ function InternshipCard() {
                   </span>{" "}
                   {company.internshipCount}
                 </p>
-                
- 
+
+
 
                 <Button type="submit"
-                 onClick={() =>{
-                navigate(`/company/${company._id}`)}
-                }
-                className="mb-2 fixed"> 
-                 View Company</Button>
+                  onClick={() => {
+                    navigate(`/company/${company._id}`)
+                  }
+                  }
+                  className="mb-2 ">
+                  View Company</Button>
               </div>
             </div>
           ))}

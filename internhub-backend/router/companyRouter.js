@@ -1,6 +1,6 @@
 const express = require("express");
 const verifyUser = require("../middleware/auth");
-const { createCompany, getCompany, getCompanyById, deleteCompany, updateCompany } = require("../controller/companyController");
+const { createCompany, getCompany, getCompanyById, deleteCompany, updateCompany, getCompanyInternships } = require("../controller/companyController");
 const upload = require("../utils/multer");
 const roleMiddleware = require("../middleware/roleMiddleware");
 

@@ -39,7 +39,7 @@ function InternshipCard() {
   return (
 
     <div className="min-h-screen bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto ">
 
         <h1 className="mb-8 text-3xl font-bold text-slate-900">Search Internships  </h1>
 
@@ -56,7 +56,7 @@ function InternshipCard() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {internships.map((internship) => (
             <div key={internship._id}
-              className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+              className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
               <div className="mb-4 flex items-center gap-3">
                 <img
                   src={internship.company?.logo}

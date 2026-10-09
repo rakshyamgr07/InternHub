@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 // to generate JWT 
 async function generateJWT(payload) {
-    let token = jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:"1d"})
+    let token = jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:"90d"})
     return token
 }
 

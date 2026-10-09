@@ -209,4 +209,28 @@ async function searchInternships(req, res) {
         return errorHandler(res, error);
     }
 }
-module.exports = { postInternship, getInternships, getInternshipById, deleteInternship, updateInternship, searchInternships }
+
+ async function getCompanyInternships  (req, res) {
+    try {
+        const { companyId } = req.params;
+
+        const internships = await Internship.find({
+            company: companyId
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Company internships fetched successfully",
+            count: internships.length,
+            internships
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Failed to fetch company internships",
+            error: error.message
+        });
+    }
+};
+module.exports = { postInternship, getInternships, getInternshipById, deleteInternship, updateInternship, searchInternships ,getCompanyInternships}
