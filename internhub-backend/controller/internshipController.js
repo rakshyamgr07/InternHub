@@ -91,7 +91,8 @@ async function deleteInternship(req, res) {
                 message: "internship not found"
             })
         }
-
+         // Delete applications related to this internship
+    await Application.deleteMany({ internship: internship._id });
         const company = await Company.findOne({ creator })
         if (!company) {
             return res.status(404).json({

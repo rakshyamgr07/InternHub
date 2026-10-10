@@ -41,6 +41,7 @@ async function applyInternships(req, res) {
                 message: "Please upload your resume"
             })
         }
+
         const internship = await Internship.findById(internshipId)
 
         if (internship.status === "closed") {
@@ -63,13 +64,15 @@ async function applyInternships(req, res) {
         }
 
         const existingApplication = await Application.findOne({
-            applicant: applicant, internship: internshipId
-        })
+            applicant: creator,
+            internship: internshipId,
+        });
+
         if (existingApplication) {
-            return res.status(400).json({
+            return res.status(409).json({
                 success: false,
-                message: "You have already applied for this internship"
-            })
+                message: "You have already applied for this internship.",
+            });
         }
         const { public_id, secure_url } = await uploadResume(resume)
         fs.unlinkSync(resume)
@@ -239,7 +242,7 @@ async function updateApplicationStatus(req, res) {
     }
 }
 
-async function deleteApplication(req,res){
+async function deleteApplication(req, res) {
     try {
         const { id } = req.params
         const applicantId = req.user.id
@@ -272,4 +275,4 @@ async function deleteApplication(req,res){
 }
 
 
-module.exports = { applyInternships, getMyApplications, getApplicationById, getInternshipApplications, updateApplicationStatus ,deleteApplication}
+module.exports = { applyInternships, getMyApplications, getApplicationById, getInternshipApplications, updateApplicationStatus, deleteApplication }

@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import Button from './Button';
+import { useNavigate } from 'react-router-dom';
 
 function InternshipCard() {
   const [internships, setInternships] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchInternships = async () => {
@@ -85,13 +87,14 @@ function InternshipCard() {
                 <p className="text-sm text-slate-600">
                   <span className="font-semibold text-slate-800">Duration:</span>{" "}{internship.duration}
                 </p>
-                <p className="text-sm text-slate-600">
-                  <span className="font-semibold text-slate-800">Stipend:</span>{" "}
-                  <span className="font-medium text-green-600">{internship.stipend}</span>
-                </p>
-                <a href="/application">
-                  <Button type="submit" loading={loading}>Apply Now</Button>
-                </a>
+               
+                
+                  <Button type="submit" 
+                   onClick={() => {
+                    navigate(`/internship/${internship._id}`)
+                  }
+                  }loading={loading}>View Internship</Button>
+                
 
               </div>
             </div>

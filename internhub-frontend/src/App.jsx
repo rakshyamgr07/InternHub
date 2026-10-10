@@ -13,6 +13,8 @@ import VerifyUser from './pages/verifyUser'
 import ResetPassword from './pages/ResetPassword'
 import SearchInternships from './pages/searchInternships'
 import CompanyDetails from './pages/Companies/CompanyDetails'
+import InternshipDetails from './pages/Internships/InternshipDetails'
+import Applications from './pages/Student/Applications'
 
 function App() {
    const dispatch = useDispatch()
@@ -32,6 +34,8 @@ function App() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/search-internship" element={<SearchInternships/>}></Route>
           <Route path="/internship" element={<Internships />}></Route>
+          <Route path="/internship/:id" element={<InternshipDetails />}></Route>
+
           <Route path="/company" element={<Companies />}></Route>
           <Route path="/company/:companyId" element={<CompanyDetails />}></Route>
           <Route path="/about" element={<About />}></Route>
@@ -42,6 +46,8 @@ function App() {
         <Route path="/verify-email/:verificationToken" element={<VerifyUser />} />
         <Route path="/reset-password/:token" element={<ResetPassword/>} />
 
+
+          <Route path="/application/:internshipId" element={<Applications />}></Route>
 
       </Routes>
     </div>

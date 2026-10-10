@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function CompanyDetails() {
   const { token, email, id } = useSelector((state) => state.user)
@@ -13,13 +13,15 @@ function CompanyDetails() {
   const [internships, setInternships] = useState([]);
   console.log("companyId =", companyId);
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     const fetchCompany = async () => {
       try {
         setLoading(true);
         setError("");
 
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/internship/company/${companyId}/internships`,
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/company/${companyId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -52,7 +54,7 @@ function CompanyDetails() {
     const fetchInternships = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/company/${companyId}/internships`
+          `${import.meta.env.VITE_API_URL}/internship/company/${companyId}/internships`
         );
 
         setInternships(response.data.internships || []);
@@ -79,6 +81,7 @@ function CompanyDetails() {
         {!loading && !error && company && (
 
           <div className="grid grid-rows gap-6 ">
+            {/*  company */}
             <div key={company?._id}
               className="rounded-xl w-full border border-slate-50 bg-white p-6 shadow-sm ">
               <div className="mb-4 flex items-center gap-3">
@@ -109,39 +112,38 @@ function CompanyDetails() {
               </div>
             </div>
 
+            {/* about company */}
             <div className='flex flex-col gap-3 w-full rounded-xl w-full border border-slate-50 bg-white p-6 shadow-sm '>
               <h1 className='font-bold text-xl'>About Company:</h1>
               <p>{company?.description}</p>
             </div>
 
-            <div className=" flex flex-col gap-3 w-full rounded-xl w-full border border-slate-50 bg-white p-6 shadow-sm ">
-              <h2 className="mb-5 text-2xl font-bold text-slate-900">
-                Internships at {company.companyName}
-              </h2>
+            {/* internship portion */}
+            <div className=" flex flex-col gap-3 rounded-xl  border border-slate-50 bg-white p-6 shadow-sm ">
+              <h2 className="mb-5 text-2xl font-bold text-slate-900">Internships at {company.companyName}</h2>
+
 
               {internships.length === 0 ? (
-                <p className="text-slate-500">
-                  No internships posted yet.
-                </p>
+                <p className="text-slate-500"> No internships posted yet. </p>
               ) : (
-                <div className="grid gap-5 md:grid-cols-2">
+                <div className="grid gap-5 md:grid-cols-2 ">
                   {internships.map((item) => (
-                    <div
-                      key={item._id}
-                      className="rounded-xl border bg-white p-5 shadow-sm"
-                    >
-                      <h3 className="text-lg font-bold">
-                        {item.title}
-                      </h3>
+                    <div key={item._id} className="rounded-xl border bg-white p-5 shadow-sm">
+                      <h3 className="text-lg font-bold">  {item.title}</h3>
 
-                      <p className="mt-2 text-sm text-slate-600">
-                        {item.description}
+                      <p className="mt-2 text-sm text-slate-600">{item.description}</p>
+
+                      <p className="mt-3 text-sm">Location: {item.location} </p>
+                      <p className="text-sm text-slate-600">
+                        <span className="font-semibold text-slate-800">Type:</span>{" "}{item.type}
                       </p>
-
-                      <p className="mt-3 text-sm">
-                        Location: {item.location}
+                      <p className="text-sm text-slate-600">
+                        <span className="font-semibold text-slate-800">Duration:</span>{" "}{item.duration}
                       </p>
-
+                      <p className="text-sm text-slate-600">
+                        <span className="font-semibold text-slate-800">Stipend:</span>{" "}
+                        <span className="font-medium text-green-600">{item.stipend}</span>
+                      </p>
                       <button
                         onClick={() => navigate(`/internship/${item._id}`)}
                         className="mt-4 w-full rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"

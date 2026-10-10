@@ -159,7 +159,18 @@ async function deleteCompany(req, res) {
                 message: "You can only delete your own company"
             })
         }
+        // find all internships belong to company
+        const internships = await Internship.find({ company: company._id }).select("_id");
 
+        const internshipIds = internships.map((internship) => internship._id);
+
+        // delete applications belong to  internships
+        await Application.deleteMany({ internship: { $in: internshipIds } });
+
+        // delete all internships belong to  company
+        await Internship.deleteMany({ company: company._id });
+
+        // delete company
         await Company.deleteOne({ _id: id })
 
         return res.status(200).json({
