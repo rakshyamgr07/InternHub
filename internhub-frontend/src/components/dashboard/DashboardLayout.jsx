@@ -1,6 +1,6 @@
-import { FiBriefcase, FiFileText, FiHome, FiSettings, FiUser, FiUsers } from "react-icons/fi";
+import { FiBriefcase, FiFileText, FiHome, FiLogOut, FiSettings, FiUser, FiUsers } from "react-icons/fi";
 import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../utils/userSlice";
 
 function DashboardLayout() {
@@ -37,6 +37,57 @@ function DashboardLayout() {
 };
 return (
     <div>
+    <aside className="">
+        <NavLink to ="/">
+        <span>
+            Intern</span>
+            Hub
+            </NavLink>
+            <p>
+                {role || "user"}Dashboard
+            </p>
+            <nav>
+                {links.amp(({label,path,icon:Icon})=>{
+                    <NavLink
+                    key = {path}
+                    to ={path}
+                    end = {path.endsWith("/dashboard")}
+                    className={({isActive})=> `flex items-center gap-3 rounded-lg px-4 py-3 text-sm transition ${
+                  isActive
+                    ? "bg-blue-600 text-white"
+                    : "text-slate-300 hover:bg-slate-800"
+                }`
+              }>
+                <Icon size ={18}/>
+                {label}                        
+                    </NavLink>
+                })}
+            </nav>
+            <button
+            onClick={handleLogout}>
+                <FiLogOut size ={18}/>
+                Logout
+            </button>
+    </aside>
+    {/* main */}
+    <main>
+        <header>
+            <div>
+                <h1>Dashboard</h1>
+                <p>Welcome back, {name || "User"}!</p>
+            </div>
+
+            <NavLink
+            to="/profile"
+            className=""
+            title="My profile">
+                {(name || "U").charAt(0).toUpperCase()}
+            </NavLink>
+        </header>
+         <div className="p-5 md:p-8">
+          <Outlet />
+        </div>
+    </main>
     </div>
 )
 export default DashboardLayout

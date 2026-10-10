@@ -1,4 +1,4 @@
-import  { useEffect } from 'react'
+import { useEffect } from 'react'
 import Navbar from './components/Navbar'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
@@ -15,9 +15,10 @@ import SearchInternships from './pages/searchInternships'
 import CompanyDetails from './pages/Companies/CompanyDetails'
 import InternshipDetails from './pages/Internships/InternshipDetails'
 import Applications from './pages/Student/Applications'
+import StudentDashboard from './pages/dashboards/StudentDashboard'
 
 function App() {
-   const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const { token } = useSelector((state) => state.user);
   useEffect(() => {
     if (!token) return
@@ -28,27 +29,32 @@ function App() {
   }, [token, dispatch])
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <Routes>
-       
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/search-internship" element={<SearchInternships/>}></Route>
-          <Route path="/internship" element={<Internships />}></Route>
-          <Route path="/internship/:id" element={<InternshipDetails />}></Route>
 
-          <Route path="/company" element={<Companies />}></Route>
-          <Route path="/company/:companyId" element={<CompanyDetails />}></Route>
-          <Route path="/about" element={<About />}></Route>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/search-internship" element={<SearchInternships />}></Route>
+        <Route path="/internship" element={<Internships />}></Route>
+        <Route path="/internship/:id" element={<InternshipDetails />}></Route>
 
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/register" element={<Register />}></Route>
-         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/company" element={<Companies />}></Route>
+        <Route path="/company/:companyId" element={<CompanyDetails />}></Route>
+        <Route path="/about" element={<About />}></Route>
+
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/register" element={<Register />}></Route>
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-email/:verificationToken" element={<VerifyUser />} />
-        <Route path="/reset-password/:token" element={<ResetPassword/>} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
 
-          <Route path="/application/:internshipId" element={<Applications />}></Route>
-
+        <Route path="/application/:internshipId" element={<Applications />}></Route>
+        <Route element={<DashboardLayout />}>
+          <Route
+            path="/student/dashboard"
+            element={<StudentDashboard />}
+          />
+        </Route>
       </Routes>
     </div>
 
