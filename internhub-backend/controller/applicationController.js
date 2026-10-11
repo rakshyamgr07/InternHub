@@ -99,12 +99,12 @@ async function getMyApplications(req, res) {
         const application = await Application.find({ applicant: applicantId })
             .populate("internship")
             .populate("applicant", "name email")
-
         return res.status(200).json({
             success: true,
             message: "Applications fetched successfully",
             applications: application
         })
+
     } catch (error) {
         return errorHandler(res, error)
     }

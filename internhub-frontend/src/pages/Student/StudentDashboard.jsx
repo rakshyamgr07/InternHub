@@ -1,32 +1,80 @@
-import React from 'react'
-import { FiCheckCircle, FiClock, FiFileText } from 'react-icons/fi';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import toast from 'react-hot-toast';
+import { FiArrowRight, FiCheckCircle, FiClock, FiFileText, FiSearch, FiXCircle } from 'react-icons/fi';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function StudentDashboard() {
-     const stats = [
+  const { name, token } = useSelector((state) => state.user);
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    console.log("Token:", token);
+
+    async function fetchApplication() {
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/application/my-applications`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+          }
+        );
+        setApplications(res.data.applications || [])
+      } catch (error) {
+        toast.error(error.response?.data?.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchApplication()
+  }, [token]);
+
+  const getStatus = (status) =>
+  String(status || "pending").trim().toLowerCase();
+
+const countStatus = (status) =>
+  applications.filter(
+    (application) => getStatus(application.status) === status
+  ).length;
+
+  const stats = [
     {
       label: "Total Applications",
-      value: "—",
+      value: applications.length,
       icon: FiFileText,
       color: "bg-blue-100 text-blue-600",
     },
     {
       label: "Pending",
-      value: "—",
+      value: countStatus("pending"),
       icon: FiClock,
       color: "bg-amber-100 text-amber-600",
     },
     {
       label: "Shortlisted",
-      value: "—",
+      value: countStatus("shortlisted"),
       icon: FiCheckCircle,
+      color: "bg-green-100 text-green-600",
+    },
+    {
+      label: "Rejected",
+      value: countStatus("rejected"),
+      icon: FiXCircle,
       color: "bg-green-100 text-green-600",
     },
   ];
 
   return (
-    <div className="space-y-8">
-      <section>
-        <h2 className="text-2xl font-bold text-slate-800">
+    <div className="space-y-8 p-30">
+      <section className=''> 
+        <h2 className="text-2xl font-bold text-slate-800  ">
           Student Overview
         </h2>
         <p className="mt-1 text-slate-500">
@@ -34,7 +82,6 @@ function StudentDashboard() {
         </p>
       </section>
 
-      {/* Statistics */}
       <section className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {stats.map(({ label, value, icon: Icon, color }) => (
           <div
@@ -57,7 +104,6 @@ function StudentDashboard() {
         ))}
       </section>
 
-      {/* Quick actions */}
       <section className="rounded-xl border border-slate-200 bg-white p-6">
         <h3 className="text-lg font-bold text-slate-800">
           Quick Actions
@@ -65,7 +111,7 @@ function StudentDashboard() {
 
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <Link
-            to="/internships"
+            to="/internship"
             className="flex items-center justify-between rounded-xl border border-slate-200 p-5 transition hover:border-blue-400 hover:bg-blue-50"
           >
             <div>
@@ -81,7 +127,7 @@ function StudentDashboard() {
           </Link>
 
           <Link
-            to="/student/dashboard/applications"
+            to="/student/dashboard/application"
             className="flex items-center justify-between rounded-xl border border-slate-200 p-5 transition hover:border-blue-400 hover:bg-blue-50"
           >
             <div>
@@ -99,7 +145,7 @@ function StudentDashboard() {
       </section>
     </div>
   )
-  
+
 }
 
 export default StudentDashboard

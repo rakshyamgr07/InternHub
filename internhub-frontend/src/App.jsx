@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { logout } from './utils/userSlice'
 import Navbar from './components/Navbar'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
@@ -15,7 +16,8 @@ import SearchInternships from './pages/searchInternships'
 import CompanyDetails from './pages/Companies/CompanyDetails'
 import InternshipDetails from './pages/Internships/InternshipDetails'
 import Applications from './pages/Student/Applications'
-import StudentDashboard from './pages/dashboards/StudentDashboard'
+import StudentDashboard from './pages/Student/StudentDashboard'
+import MyApplications from './pages/Student/MyApplications'
 
 function App() {
   const dispatch = useDispatch()
@@ -49,12 +51,14 @@ function App() {
 
 
         <Route path="/application/:internshipId" element={<Applications />}></Route>
-        <Route element={<DashboardLayout />}>
           <Route
             path="/student/dashboard"
             element={<StudentDashboard />}
           />
-        </Route>
+          <Route
+            path="/student/dashboard/application"
+            element={<MyApplications />}
+          />
       </Routes>
     </div>
 

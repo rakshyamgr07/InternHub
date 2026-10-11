@@ -15,13 +15,6 @@ export const navLinks = [
         name:"About",
         path:"/about"
     },
-     {
-        name:"Login",
-        path:"/login"
-    },
-     {
-        name:"Register",
-        path:"/register"
-    },
+    
     
 ]
