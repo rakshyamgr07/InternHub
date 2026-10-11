@@ -18,6 +18,8 @@ import InternshipDetails from './pages/Internships/InternshipDetails'
 import Applications from './pages/Student/Applications'
 import StudentDashboard from './pages/Student/StudentDashboard'
 import MyApplications from './pages/Student/MyApplications'
+import CompanyDashboard from './pages/Companies/CompanyDashboard'
+import AdminDashboard from './pages/dashboards/AdminDashboard'
 
 function App() {
   const dispatch = useDispatch()
@@ -51,13 +53,27 @@ function App() {
 
 
         <Route path="/application/:internshipId" element={<Applications />}></Route>
-          <Route
+         
+         {/* student */}
+         <Route
             path="/student/dashboard"
             element={<StudentDashboard />}
           />
           <Route
             path="/student/dashboard/application"
             element={<MyApplications />}
+          />
+
+          {/* company */}
+          <Route
+            path="/company/dashboard"
+            element={<CompanyDashboard />}
+          />
+
+          {/* admin */}
+           <Route
+            path="/admin/dashboard"
+            element={<AdminDashboard />}
           />
       </Routes>
     </div>

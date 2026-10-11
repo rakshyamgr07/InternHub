@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
-import { FiArrowRight, FiCheckCircle, FiClock, FiFileText, FiSearch, FiXCircle } from 'react-icons/fi';
+import {  FiCheckCircle, FiClock, FiFileText, FiSearch, FiXCircle } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -123,7 +123,6 @@ const countStatus = (status) =>
                 Explore opportunities that match your skills.
               </p>
             </div>
-            <FiArrowRight className="text-blue-600" />
           </Link>
 
           <Link
@@ -139,7 +138,6 @@ const countStatus = (status) =>
                 Review your submitted applications.
               </p>
             </div>
-            <FiArrowRight className="text-blue-600" />
           </Link>
         </div>
       </section>
