@@ -24,6 +24,8 @@ import PostInternships from './pages/Companies/PostInternships'
 import ManageInternships from './pages/Companies/ManageInternships'
 import EditInternship from './pages/Companies/EditInternships'
 import ReviewApplications from './pages/Companies/ReviewApplications'
+import ManageUsers from './pages/Admin/ManageUsers'
+import ManageCompanies from './pages/Admin/ManageCompanies'
 
 function App() {
   const dispatch = useDispatch()
@@ -98,6 +100,20 @@ function App() {
             path="/admin/dashboard"
             element={<AdminDashboard />}
           />
+           <Route
+            path="/admin/dashboard/manage-users"
+            element={<ManageUsers />}
+          />
+
+           <Route
+            path="/admin/dashboard/manage-company"
+            element={<ManageCompanies />}
+          />
+
+          {/* <Route
+            path="/admin/dashboard/manage-applications"
+            element={<ManageApplications />}
+          /> */}
       </Routes>
     </div>
 

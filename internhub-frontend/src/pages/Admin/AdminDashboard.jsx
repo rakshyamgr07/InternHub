@@ -1,41 +1,73 @@
 import axios from 'axios';
+import { Building2 } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
-import {  FiCheckCircle, FiClock, FiFileText, FiSearch, FiXCircle } from 'react-icons/fi';
+import { FiBriefcase, FiCheckCircle, FiClock, FiFileText, FiSearch, FiUser, FiXCircle } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 function AdminDashboard() {
-    const { name, token } = useSelector((state) => state.user);
+    const { token } = useSelector((state) => state.user);
     const [applications, setApplications] = useState([]);
     const [internships, setInternships] = useState([]);
+    const [companies, setCompanies] = useState([]);
+    const [users, setUsers] = useState([]);
 
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         console.log("Token:", token);
 
-        async function fetchApplication() {
+        async function fetchDashboardData() {
             if (!token) {
                 setLoading(false);
                 return;
             }
             try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/application/my-applications`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        }
-                    }
-                );
-                setApplications(res.data.applications || [])
+                const [userRes, companyRes, internshipRes, applicationRes] =
+                    await Promise.all([
+                        axios.get(`${import.meta.env.VITE_API_URL}/admin/users`,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }
+                        ),
+                        axios.get(`${import.meta.env.VITE_API_URL}/admin/companies`,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }
+                        ),
+                        axios.get(`${import.meta.env.VITE_API_URL}/admin/internships`,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }
+                        ),
+                        axios.get(`${import.meta.env.VITE_API_URL}/admin/applications`,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }
+                        )
+                    ])
+
+                setUsers(userRes.data.users || [])
+                setCompanies(companyRes.data.companies || [])
+                setInternships(internshipRes.data.internships || []);
+                setApplications(applicationRes.data.applications || [])
+
             } catch (error) {
                 toast.error(error.response?.data?.message);
             } finally {
                 setLoading(false);
             }
         }
-        fetchApplication()
+        fetchDashboardData()
     }, [token]);
 
     const getStatus = (status) =>
@@ -49,29 +81,39 @@ function AdminDashboard() {
     const stats = [
         {
             label: "Total Users",
-            value: internships.length,
-            icon: FiClock,
+            value: users.length,
+            icon: FiUser,
             color: "bg-amber-100 text-amber-600",
         },
         {
             label: "Total Companies",
-            value: applications.length,
-            icon: FiFileText,
+            value: companies.length,
+            icon: Building2,
             color: "bg-blue-100 text-blue-600",
         },
         {
-            label: "Total Students",
-            value: countStatus("shortlisted"),
-            icon: FiCheckCircle,
+            label: "Total Internships",
+            value: internships.length,
+            icon: FiBriefcase,
             color: "bg-green-100 text-green-600",
         },
         {
-            label: "Total",
-            value: countStatus("accepted"),
-            icon: FiXCircle,
+            label: "Total Applications",
+            value: applications.length,
+            icon: FiFileText,
             color: "bg-green-100 text-green-600",
         },
     ];
+
+    if(loading){
+        return(
+            <div className='flex min-h-screen items-center justify-center'>
+                <p className='text-slate-600'>
+                    Loading main dashboard........
+                </p>
+            </div>
+        )
+    }
 
     return (
         <div className="space-y-8 p-30">
@@ -112,10 +154,39 @@ function AdminDashboard() {
                 </h3>
 
                 <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                   
+
                     <Link
-                        to="/internship"
+                        to="/admin/dashboard/manage-users"
+                        className="flex items-center justify-between rounded-xl border border-slate-200 p-5 transition hover:border-blue-400 hover:bg-blue-50">
+                        <div>
+                            <FiUser className="mb-3 text-xl text-blue-600" />
+                            <h4 className="font-semibold text-slate-800">
+                                Show Users
+                            </h4>
+                            <p className="mt-1 text-sm text-slate-500">
+                                Review your submitted applications.
+                            </p>
+                        </div>
+                    </Link>
+                     <Link
+                        to="/admin/dashboard/manage-company"
                         className="flex items-center justify-between rounded-xl border border-slate-200 p-5 transition hover:border-blue-400 hover:bg-blue-50"
                     >
+                        <div>
+                            <Building2 className="mb-3 text-xl text-blue-600" />
+                            <h4 className="font-semibold text-slate-800">
+                                Show Companies
+                            </h4>
+                            <p className="mt-1 text-sm text-slate-500">
+                                Review your submitted applications.
+                            </p>
+                        </div>
+                    </Link>
+                    
+                     <Link
+                        to="/internship"
+                        className="flex items-center justify-between rounded-xl border border-slate-200 p-5 transition hover:border-blue-400 hover:bg-blue-50">
                         <div>
                             <FiSearch className="mb-3 text-xl text-blue-600" />
                             <h4 className="font-semibold text-slate-800">
@@ -123,21 +194,6 @@ function AdminDashboard() {
                             </h4>
                             <p className="mt-1 text-sm text-slate-500">
                                 Explore opportunities that match your skills.
-                            </p>
-                        </div>
-                    </Link>
-
-                    <Link
-                        to="/student/dashboard/applications"
-                        className="flex items-center justify-between rounded-xl border border-slate-200 p-5 transition hover:border-blue-400 hover:bg-blue-50"
-                    >
-                        <div>
-                            <FiFileText className="mb-3 text-xl text-blue-600" />
-                            <h4 className="font-semibold text-slate-800">
-                                Show Applications
-                            </h4>
-                            <p className="mt-1 text-sm text-slate-500">
-                                Review your submitted applications.
                             </p>
                         </div>
                     </Link>

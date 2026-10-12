@@ -168,19 +168,24 @@ async function deleteInternships(req, res) {
 }
 async function getAllApplications(req, res) {
     try {
-
         const applications = await Application.find()
             .populate("applicant", "name email")
-            .populate("internship", "title company")
+            .populate({
+                path: "internship",
+                select: "title company",
+                populate: {
+                    path: "company",
+                    select: "companyName",
+                },
+            });
 
         return res.status(200).json({
             success: true,
             message: "Applications fetched successfully",
-            applications
-        })
-
+            applications,
+        });
     } catch (error) {
-        return errorHandler(res, error)
+        return errorHandler(res, error);
     }
 }
 async function getDashBoardStatus(req, res) {
