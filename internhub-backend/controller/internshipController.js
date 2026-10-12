@@ -27,7 +27,7 @@ async function postInternship(req, res) {
             title, description, skills, location, type, duration, stipend,
             deadline
         })
-        await Company.findByIdAndUpdate(creator, { $push: { internshipPosted: newInternship._id } })
+        await Company.findByIdAndUpdate(company._id, { $push: { internshipPosted: newInternship._id } })
         return res.status(200).json({
             success: true,
             messsage: "Internship created successfully",
@@ -213,24 +213,33 @@ async function searchInternships(req, res) {
 
  async function getCompanyInternships  (req, res) {
     try {
-        const { companyId } = req.params;
+        const userId = req.user.id; // logged-in user's ID
+
+        const company = await Company.findOne({
+            creator: userId
+        });
+
+        if (!company) {
+            return res.status(404).json({
+                success: false,
+                message: "Company not found for this user"
+            });
+        }
 
         const internships = await Internship.find({
-            company: companyId
-        });
+            company: company._id
+        }).sort({ createdAt: -1 });
 
         return res.status(200).json({
             success: true,
-            message: "Company internships fetched successfully",
-            count: internships.length,
             internships
         });
-
     } catch (error) {
+        console.error("GET COMPANY INTERNSHIPS ERROR:", error);
+
         return res.status(500).json({
             success: false,
-            message: "Failed to fetch company internships",
-            error: error.message
+            message: error.message
         });
     }
 };

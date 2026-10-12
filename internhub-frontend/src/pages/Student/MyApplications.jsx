@@ -60,7 +60,7 @@ function MyApplications() {
   }
 
   return (
-    <div className="space-y-6 p-25">
+    <div className="space-y-6 p-30">
       <div>
         <h1 className="text-2xl font-bold text-slate-800 ">
           My Applications
@@ -98,12 +98,6 @@ function MyApplications() {
                       application.internshipTitle ||
                       "Internship"}
                   </h2>
-
-                  <p className="mt-1 text-sm text-slate-500">
-                    {application.internship?.company?.companyName ||
-                      application.company?.companyName ||
-                      "Company details unavailable"}
-                  </p>
 
                   <p className="mt-3 text-sm text-slate-500">
                     Applied on:{" "}

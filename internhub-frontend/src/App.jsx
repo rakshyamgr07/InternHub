@@ -19,7 +19,11 @@ import Applications from './pages/Student/Applications'
 import StudentDashboard from './pages/Student/StudentDashboard'
 import MyApplications from './pages/Student/MyApplications'
 import CompanyDashboard from './pages/Companies/CompanyDashboard'
-import AdminDashboard from './pages/dashboards/AdminDashboard'
+import AdminDashboard from './pages/Admin/AdminDashboard'
+import PostInternships from './pages/Companies/PostInternships'
+import ManageInternships from './pages/Companies/ManageInternships'
+import EditInternship from './pages/Companies/EditInternships'
+import ReviewApplications from './pages/Companies/ReviewApplications'
 
 function App() {
   const dispatch = useDispatch()
@@ -70,6 +74,25 @@ function App() {
             element={<CompanyDashboard />}
           />
 
+           <Route
+            path="/company/dashboard/internships/new"
+            element={<PostInternships />}
+          />
+
+           <Route
+            path="/company/dashboard/internships"
+            element={<ManageInternships />}
+          />
+
+           <Route
+            path="/company/dashboard/internships/edit/:id"
+            element={<EditInternship />}
+          />
+
+           <Route
+            path="/company/dashboard/applications"
+            element={<ReviewApplications />}
+          />
           {/* admin */}
            <Route
             path="/admin/dashboard"

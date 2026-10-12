@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
-import {  FiBriefcase, FiCheckCircle, FiClock, FiFileText, FiPlus, FiSearch, FiUser, FiXCircle } from 'react-icons/fi';
+import { FiBriefcase, FiCheckCircle, FiClock, FiFileText, FiPlus, FiSearch, FiUser, FiXCircle } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -26,7 +26,10 @@ function CompanyDashboard() {
                         }
                     }
                 );
+                console.log("Logged-in user ID:", id);
+                console.log("Internship API response:", res.data);
                 const companyInternships = res.data.internships || [];
+                console.log("Fetched internships:", companyInternships);
                 setInternships(companyInternships);
 
                 const result = await Promise.all(companyInternships
@@ -148,24 +151,21 @@ function CompanyDashboard() {
                                         String(application.internship?._id || application.internship) === String(internship._id))
                                         .length;
 
+                                    return (
 
+                                        <div key={internship._id}
+                                            className="flex flex-col justify-between gap-3 rounded-lg border border-slate-100 p-4 sm:flex-row sm:items-center" >
+                                            <div>
+                                                <h3 className="font-semibold text-slate-800">
+                                                    {internship.title}
+                                                </h3>
+                                                <p className="mt-1 text-sm text-slate-500">
+                                                    {applicantCount}
+                                                    applicants </p>
+                                            </div>
 
-                                    <div key={internship._id}
-                                        className="flex flex-col justify-between gap-3 rounded-lg border border-slate-100 p-4 sm:flex-row sm:items-center" >
-                                        <div>
-                                            <h3 className="font-semibold text-slate-800">
-                                                {internship.title}
-                                            </h3>
-                                            <p className="mt-1 text-sm text-slate-500">
-                                                {applicantCount}
-                                                applicants </p>
                                         </div>
-                                        <Link to="/company/dashboard/applications"
-                                            className="text-sm font-medium text-blue-600 hover:underline" >
-                                            View Applicants
-                                        </Link>
-                                    </div>
-
+                                    )
                                 }))}
                 </div>
             </section>
