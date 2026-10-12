@@ -1,16 +1,43 @@
-# React + Vite
+# InternHub Nepal
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**InternHub Nepal** is a web-based internship management platform that connects students with companies offering internship opportunities. It allows students to explore internships and apply for suitable positions while companies can manage their profiles and post internship opportunities.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- User registration and login with email verification
+- Role-based access for students, companies, and administrators
+- Company profile creation and management
+- Internship posting and management
+- Internship search and filtering
+- Internship application with resume upload and cover letter
+- Application status management
+- Admin dashboard for platform management
 
-## React Compiler
+## Technologies Used
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend:** React.js, Tailwind CSS, Redux
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB
+- **Authentication:** JWT and email verification
+- **File Upload:** Multer and Cloudinary
+- **API Testing:** Postman
 
-## Expanding the Oxlint configuration
+## Installation and Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+1. Clone the repository.
+2. Install dependencies in both frontend and backend folders using `npm install`.
+3. Configure the environment variables in the `.env` file.
+4. Start the backend and frontend development servers.
+
+## Project Objective
+
+The main objective of InternHub Nepal is to make internship opportunities more accessible to students and simplify the process of connecting students with potential employers.
+
+## Future Enhancements
+
+- Internship recommendation system
+- Email notifications for application updates
+- Improved search and filtering options
+- Online deployment and accessibility
+
+**Developed as an academic project** to demonstrate full-stack web development skills.
