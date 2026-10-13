@@ -116,13 +116,13 @@ async function userLogin(req, res) {
             })
         }
         let token = await generateJWT({ email: existingUser.email, id: existingUser._id, role: existingUser.role })
-        if (!existingUser.verify) {
-            await sendVerificationEmail(existingUser.email, token)
-            return res.status(200).json({
-                success: true,
-                message: "please check your email to verify the mail",
-            })
-        }
+        // if (!existingUser.verify) {
+        //     await sendVerificationEmail(existingUser.email, token)
+        //     return res.status(200).json({
+        //         success: true,
+        //         message: "please check your email to verify the mail",
+        //     })
+        // }
         const hashPassword = await bcrypt.compare(password, existingUser.password)
         if (!hashPassword) {
             return res.status(200).json({
