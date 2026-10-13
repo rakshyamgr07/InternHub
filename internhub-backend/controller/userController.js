@@ -19,6 +19,7 @@ async function createUser(req, res) {
         }
         const existingUser = await User.findOne({ email })
 
+
         if (existingUser) {
             if (existingUser.verify) {
                 return res.status(400).json({
@@ -27,11 +28,20 @@ async function createUser(req, res) {
                 })
             }
 
-            return res.status(400).json({
-                success: false,
-                message: "Please verify your email before registering again"
+            const token = await generateJWT({
+                id: existingUser._id,
+                email: existingUser.email,
+                role: existingUser.role
+            })
+
+            await sendVerificationEmail(existingUser.email, token)
+
+            return res.status(200).json({
+                success: true,
+                message: "Verification email sent again. Please check your inbox."
             })
         }
+
         const hashPassword = await bcrypt.hash(password, 10)
         const newUser = await User.create({ name, email, password: hashPassword, role })
 
@@ -340,4 +350,4 @@ async function verifyToken(req, res) {
         return errorHandler(res, error)
     }
 }
-module.exports = { createUser, getUser, getUserById, userLogin, deleteUser, updateUser, forgotPassword, resetPassword ,verifyToken}
+module.exports = { createUser, getUser, getUserById, userLogin, deleteUser, updateUser, forgotPassword, resetPassword, verifyToken }
