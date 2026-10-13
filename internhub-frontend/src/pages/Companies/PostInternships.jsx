@@ -15,7 +15,7 @@ function PostInternships() {
         description: "",
         skills: "",
         location: "",
-        type: "remote",
+        type: "Remote",
         duration: "",
         stipend: "",
         deadline: "",
@@ -145,9 +145,9 @@ function PostInternships() {
                             value={formData.type}
                             onChange={handleChange}
                             required >
-                            <option value="Remote">remote</option>
-                            <option value="On-site">on-site</option>
-                            <option value="Hybrid">hybrid</option>
+                            <option value="Remote">Remote</option>
+                            <option value="On-site">On-site</option>
+                            <option value="Hybrid">Hybrid</option>
                         </select>
                     </div>
 
