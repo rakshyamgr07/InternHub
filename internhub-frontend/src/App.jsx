@@ -26,6 +26,7 @@ import EditInternship from './pages/Companies/EditInternships'
 import ReviewApplications from './pages/Companies/ReviewApplications'
 import ManageUsers from './pages/Admin/ManageUsers'
 import ManageCompanies from './pages/Admin/ManageCompanies'
+import CreateCompanyProfile from './pages/Companies/CreateCompanyprofile'
 
 function App() {
   const dispatch = useDispatch()
@@ -74,6 +75,11 @@ function App() {
           <Route
             path="/company/dashboard"
             element={<CompanyDashboard />}
+          />
+
+           <Route
+            path="/company/dashboard/companies/new"
+            element={<CreateCompanyProfile />}
           />
 
            <Route

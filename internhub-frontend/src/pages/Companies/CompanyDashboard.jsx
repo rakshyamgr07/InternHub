@@ -103,6 +103,11 @@ function CompanyDashboard() {
                         Manage your internships and find the right talent.
                     </p>
                 </div>
+                 <Link to="/company/dashboard/companies/new"
+                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700" >
+                    <FiPlus size={19} />
+                    Create Company Profile
+                </Link>
                 <Link to="/company/dashboard/internships/new"
                     className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700" >
                     <FiPlus size={19} />
