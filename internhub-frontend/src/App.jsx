@@ -110,10 +110,7 @@ function App() {
             element={<ManageCompanies />}
           />
 
-          {/* <Route
-            path="/admin/dashboard/manage-applications"
-            element={<ManageApplications />}
-          /> */}
+          
       </Routes>
     </div>
 
