@@ -8,59 +8,64 @@ const Internship = require("../model/internshipSchema");
 const Company = require("../model/companySchema");
 const Application = require("../model/applicationSchema");
 
+
 async function createUser(req, res) {
     try {
-        const { name, email, password, role } = req.body
+        const { name, email, password, role } = req.body;
+
         if (!name || !email || !password || !role) {
             return res.status(400).json({
                 success: false,
-                message: "please insert all the fields"
-            })
+                message: "Please insert all the fields"
+            });
         }
-        const existingUser = await User.findOne({ email })
 
+        const allowedRoles = ["student", "company"];
+
+        if (!allowedRoles.includes(role)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid role"
+            });
+        }
+
+        const existingUser = await User.findOne({ email });
 
         if (existingUser) {
-            if (existingUser.verify) {
-                return res.status(400).json({
-                    success: false,
-                    message: "User with this email already exists"
-                })
-            }
-
-            const token = await generateJWT({
-                id: existingUser._id,
-                email: existingUser.email,
-                role: existingUser.role
-            })
-
-            await sendVerificationEmail(existingUser.email, token)
-
-            return res.status(200).json({
-                success: true,
-                message: "Verification email sent again. Please check your inbox."
-            })
+            return res.status(400).json({
+                success: false,
+                message: "User with this email already exists"
+            });
         }
 
-        const hashPassword = await bcrypt.hash(password, 10)
-        const newUser = await User.create({ name, email, password: hashPassword, role })
+        const hashPassword = await bcrypt.hash(password, 10);
 
-        const token = await generateJWT({
-            id: newUser._id,
-            email: newUser.email,
-            role: newUser.role
-        })
-        await sendVerificationEmail(newUser.email, token)
+        const newUser = await User.create({
+            name,
+            email,
+            password: hashPassword,
+            role,
+            verify: false
+        });
 
-        return res.status(200).json({
+        return res.status(201).json({
             success: true,
-            message: "please check your email to verify the mail",
-            user: newUser
-        })
+            message:
+                "Account created.",
+            user: {
+                id: newUser._id,
+                name: newUser.name,
+                email: newUser.email,
+                role: newUser.role,
+                verify: newUser.verify
+            }
+        });
+
     } catch (error) {
-        return errorHandler(res, error)
+        return errorHandler(res, error);
     }
 }
+
 
 async function getUser(req, res) {
     try {
