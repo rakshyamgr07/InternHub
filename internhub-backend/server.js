@@ -8,7 +8,9 @@ const internshipRouter = require('./router/internshipRouter');
 const applicationRouter = require('./router/applicationRouter');
 const adminRouter = require('./router/adminRouter');
 const cloudinaryConfig = require('./config/cloudinary');
+const dns = require("dns");
 
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 const app =express()
 const PORT = process.env.PORT || 4000
