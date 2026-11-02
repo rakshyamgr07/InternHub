@@ -43,7 +43,7 @@ function InternshipCard() {
     <div className="min-h-screen bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
       <div className="mx-auto ">
 
-        <h1 className="mb-8 text-3xl font-bold text-slate-900">Search Internships  </h1>
+        <h1 className="mb-8 text-3xl font-bold text-slate-900">Explore Internships  </h1>
 
         {loading && (
           <p className="py-10 text-center text-sm font-medium text-blue-600"> Loading...</p>
